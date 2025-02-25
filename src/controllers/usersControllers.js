@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const UserList = require("../models/UserList");
+
 const lista = new UserList();
 
 lista.addUser(new User("Giovanna Alba", "albagomesg@gmail.com", 17));
@@ -7,7 +8,12 @@ lista.addUser(new User("Marcelo Carboni", "marcelo.carboni@docente.senai.br", 48
 
 const router = {
     getAllUsers: (req, res) => {
-        res.json(lista.getAllUsers());
+      try {
+        const users = lista.getAllUsers();
+        res.status(200).json(users);
+      } catch (error) {
+        res.status(404).json({ message: "Usuário não encontrado!"})
+      }
     },
 
     getUserById: (req, res) => {
